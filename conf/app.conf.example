@@ -1,0 +1,20 @@
+appname = getyoutubers
+sitename = getyoutubers.com
+httpport = 8001
+runmode = dev
+autoMigrate = true
+appUrl = "https://getyoutubers.com"
+
+copyrequestbody = true
+
+dbUser = postgres
+dbPass = NDNzDv8VHvQYu
+dbHost = "127.0.0.1"
+dbName = youtubers
+
+redisHost = "localhost:8002"
+redisPass = "pass"
+
+rabbitmqHost = "localhost:5672"
+rabbitmqUser = rabbitmq
+rabbitmqPass = rabbitmq

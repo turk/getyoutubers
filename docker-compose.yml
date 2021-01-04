@@ -1,0 +1,52 @@
+version: '3'
+
+# Define services
+services:
+  dev-youtubers:
+    container_name: getyoutubers
+    build: .
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+  redis:
+    image: "redis:alpine"
+    container_name: getyoutubers_redis
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    ports:
+      - "8002:6379"
+    env_file:
+      - ".env"
+    volumes:
+      - './.docker/redis:/redis'
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    restart: always
+  rabbitmq:
+    image: rabbitmq:3.6-management-alpine
+    container_name: getyoutubers_rabbitmq
+    #    hostname: "rabbitmq"
+    volumes:
+      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    restart: always
+    ports:
+      - 8003:5672
+      - 8004:15672
+  postgresql:
+    image: "postgres"
+    container_name: getyoutubers_postgres
+    ports:
+      - 8005:5432
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./.docker/postgresql/data:/var/lib/postgresql/

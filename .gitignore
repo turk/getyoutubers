@@ -1,0 +1,7 @@
+/conf/app.conf
+/youtubers
+/.docker/rabbitmq/data/
+/.docker/rabbitmq/logs/
+/.docker/postgresql/data/
+.env
+/vendor/

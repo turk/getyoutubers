@@ -1,0 +1,266 @@
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BroadcastChannel",
+        "name": "{{.Channel.Name}}",
+        "image": "{{.Channel.Avatar}}",
+        "url": "/channel/{{.Channel.ChannelID}}"
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org/",
+        "@type": "Person",
+        "name": "{{.Channel.Name}}"
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<div class="container full-w">
+    <div id="channel">
+        <div class="top">
+            <style>
+                .main-image-background {
+                    background-image: url({{.Channel.Poster}});
+                }
+            </style>
+            <div class="main-image main-image-background">
+            </div>
+            <div class="status-bar">
+                <div class="profile-image">
+                    <a href="{{urlfor "ChannelController.GetChannel" ":channelID" .Channel.ChannelID}}" target="_blank"
+                       title="{{.Channel.Name}}'s Youtube Channel Stats">
+                        <img src="{{.Channel.Avatar}}"
+                             alt="{{.Channel.Name}}'s Youtube Channel Stats">
+                    </a>
+                </div>
+                <div class="status-info">
+                    <div class="channel-name">{{.Channel.Name }}</div>
+                    <div class="status-details">
+                        <div class="box">
+                            <div class="top-part">SUBSCRIBERS</div>
+                            <div class="bottom-part">{{.Channel.SubscriberCount}}</div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">VIDEO VIEWS</div>
+                            <div class="bottom-part">{{.Channel.ViewCount}}</div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">UPLOADS</div>
+                            <div class="bottom-part">{{.Channel.UploadCount}}</div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">COUNTRY</div>
+                            <div class="bottom-part">
+                                <a href="{{urlfor "ChannelController.List" ":slug" .Channel.Country.Slug}}"
+                                   title="Youtube channels in {{.Channel.Country.Name}}">
+                                    {{.Channel.Country.Name}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">CATEGORY</div>
+                            <div class="bottom-part">
+                                <a href="{{urlfor "ChannelController.List" ":slug" .Channel.Type.Slug}}"
+                                   title="Youtube channels in {{.Channel.Type.Name}} category">
+                                    {{.Channel.Type.Name}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">CHANNEL CREATED</div>
+                            <div class="bottom-part">{{.Channel.ChannelCreatedAt}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="detail-nav">
+            <a href="{{urlfor "ChannelController.GetChannel" ":channelID" .Channel.ChannelID}}"
+               title="{{.Channel.Name}}'s Youtube Channel Stats">Channel Overview</a>
+            <a href="{{urlfor "ChannelController.GetChannelVideos" ":channelID" .Channel.ChannelID}}"
+               title="{{.Channel.Name}}'s Youtube Video Stats">Videos Statistics</a>
+            <a href="#">Estimated Earnings</a>
+            <a href="{{urlfor "ChannelController.GetSimilarChannel" ":channelID" .Channel.ChannelID}}">Similar
+                Channels</a>
+        </div>
+        <div id="content">
+            <div class="row row-cards">
+                <div class="col-md-6 col-sm-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-body p-3 text-center">
+                            <div class="h1 m-0">#{{.Channel.SubscriberRank}}</div>
+                            <div class="text-muted mb-4">SUBSCRIBER RANK</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-body p-3 text-center">
+                            <div class="h1 m-0">#{{.Channel.ViewRank}}</div>
+                            <div class="text-muted mb-4">VIEWS RANK</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="subscribers-chart"></div>
+                    <script>
+                        const subscribersOptions = {
+                            series: [{
+                                name: "Subscribers",
+                                data: [{{range $h := .Channel.History}}{x: "{{$h.Date}}", y: {{$h.SubscriberCountRaw}}},{{end}}],
+                            }],
+                            chart: {
+                                height: 350,
+                                type: 'area',
+                                zoom: {
+                                    enabled: false
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'smooth'
+                            },
+                            title: {
+                                text: 'Daily Growth of Subscribers',
+                                align: 'center'
+                            },
+                            colors: ['#00cd98'],
+                            grid: {
+                                row: {
+                                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                                    opacity: 0.5
+                                },
+                            },
+                            fill: {
+                                type: 'gradient',
+                                gradient: { shadeIntensity: 1,opacityFrom: 0.7,opacityTo: 0.9,stops: [0, 100]}
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                                        return numberWithCommas(value);
+                                    }
+                                }
+                            },
+                        };
+
+                        const subscribersChart = new ApexCharts(document.querySelector("#subscribers-chart"), subscribersOptions);
+                        subscribersChart.render();
+                    </script>
+                </div>
+
+                <div class="col-md-6">
+                    <div id="views-chart"></div>
+                    <script>
+                        const viewsChartOptions = {
+                            series: [{
+                                name: "Total Views",
+                                data: [{{range $h := .Channel.History}}{x: "{{$h.Date}}", y: {{$h.ViewCountRaw}}},{{end}}],
+                            }],
+                            chart: {
+                                height: 350,
+                                type: 'area',
+                                zoom: {
+                                    enabled: false
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'straight'
+                            },
+                            title: {
+                                text: 'Daily Growth of Channel View',
+                                align: 'center'
+                            },
+                            fill: {
+                                type: 'gradient',
+                                gradient: { shadeIntensity: 1,opacityFrom: 0.7,opacityTo: 0.9,stops: [0, 100]}
+                            },
+                            grid: {
+                                row: {
+                                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                                    opacity: 0.5
+                                },
+                            },
+                            tooltip: {
+                                y: {
+                                    formatter: function (value, { series, seriesIndex, dataPointIndex, w }) {
+                                        return numberWithCommas(value);
+                                    }
+                                }
+                            },
+                        };
+
+                        const viewsChart = new ApexCharts(document.querySelector("#views-chart"), viewsChartOptions);
+                        viewsChart.render();
+                    </script>
+                </div>
+
+                <div class="main col col-lg-12 col-md-12 col-sm-12">
+                    <h1>
+                        <a href="{{urlfor "ChannelController.GetChannel" ":channelID" .Channel.ChannelID}}"
+                           title="{{.Channel.Name}}'s Youtube Channel Stats">{{.Channel.Name}}
+                            Youtube Channel Statistics</a></h1>
+                    <div class="stats-history">
+                        <table class="table table-responsive-md">
+                            <thead class="thead-black bg-youtube">
+                            <tr>
+                                <th>DATE</th>
+                                <th>SUBS COUNT</th>
+                                <th>VIEWS</th>
+                                <th>ESTIMATED EARNINGS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range $h := .Channel.History}}
+                                <tr>
+                                    <td>{{$h.Date}}</td>
+                                    <td>
+                                        <span style="color: #41a200"> +{{$h.SubscriberDiff}}</span> {{$h.SubscriberCount}}
+                                    </td>
+                                    <td><span style="color: #41a200"> +{{$h.ViewDiff}}</span> {{$h.ViewCount}}</td>
+                                    <td>{{$h.Earnings}}</td>
+                                </tr>
+                            {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

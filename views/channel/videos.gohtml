@@ -1,0 +1,121 @@
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BroadcastChannel",
+        "name": "{{.Channel.Name}}",
+        "image": "{{.Channel.Avatar}}",
+        "url": "/channel/{{.Channel.ChannelID}}"
+    }
+
+</script>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org/",
+        "@type": "Person",
+        "name": "{{.Channel.Name}}"
+    }
+
+</script>
+
+<div class="container full-w">
+    <div id="channel">
+        <div class="top">
+            <style>
+                .main-image-background {
+                    background-image: url({{.Channel.Poster}});
+                }
+            </style>
+            <div class="main-image main-image-background">
+            </div>
+            <div class="status-bar">
+                <div class="profile-image">
+                    <a href="{{urlfor "ChannelController.GetChannel" ":channelID" .Channel.ChannelID}}" target="_blank"
+                       title="{{.Channel.Name}}'s Youtube Channel Stats">
+                        <img src="{{.Channel.Avatar}}" alt="{{.Channel.Name}}'s Youtube Channel Stats">
+                    </a>
+                </div>
+                <div class="status-info">
+                    <div class="channel-name">{{.Channel.Name }}</div>
+                    <div class="status-details">
+                        <div class="box">
+                            <div class="top-part">SUBSCRIBERS</div>
+                            <div class="bottom-part">{{.Channel.SubscriberCount}}</div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">VIDEO VIEWS</div>
+                            <div class="bottom-part">{{.Channel.ViewCount}}</div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">UPLOADS</div>
+                            <div class="bottom-part">{{.Channel.UploadCount}}</div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">COUNTRY</div>
+                            <div class="bottom-part">
+                                <a href="{{urlfor "ChannelController.List" ":slug" .Channel.Country.Slug}}" title="Youtube channels in {{.Channel.Country.Name}}">
+                                    {{.Channel.Country.Name}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">CATEGORY</div>
+                            <div class="bottom-part">
+                                <a href="{{urlfor "ChannelController.List" ":slug" .Channel.Type.Slug}}" title="Youtube channels in {{.Channel.Type.Name}} category">
+                                    {{.Channel.Type.Name}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="top-part">CHANNEL CREATED</div>
+                            <div class="bottom-part">{{.Channel.ChannelCreatedAt}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="detail-nav">
+            <a href="{{urlfor "ChannelController.GetChannel" ":channelID" .Channel.ChannelID}}"
+               title="{{.Channel.Name}}'s Youtube Channel Stats">Channel Overview</a>
+            <a href="{{urlfor "ChannelController.GetChannelVideos" ":channelID" .Channel.ChannelID}}"
+               title="{{.Channel.Name}}'s Youtube Video Stats">Videos Statistics</a>
+            <a href="#">Estimated Earnings</a>
+            <a href="{{urlfor "ChannelController.GetSimilarChannel" ":channelID" .Channel.ChannelID}}">Similar
+                Channels</a>
+        </div>
+        <div id="content" style="height: auto !important;">
+            <div class="row" style="height: auto !important;">
+
+                <div class="main col-lg-12 col-md-12 col-sm-12"
+                     style="height: auto !important; min-height: 0px !important;">
+                    <h1>{{.Channel.Name}} Youtube Videos Statistics</h1>
+                    <div class="stats-history">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>PUSBLISHEd</th>
+                                <th>VIDEO</th>
+                                <th>VIDEO VIEWS</th>
+                                <th>COMMENTS</th>
+                                <th>RATING %</th>
+                                <th>ESTIMATED EARNINGS</th>
+                            </tr>
+
+                            {{range $v := .Channel.Videos}}
+                                <tr>
+                                    <td>{{$v.Date}}</td>
+                                    <td><a href=""></a>{{$v.Title}}</td>
+                                    <td>{{$v.ViewCount}}</td>
+                                    <td>{{$v.CommentCount}}</td>
+                                    <td>{{$v.Rating}}</td>
+                                    <td>{{$v.Earnings}}</td>
+                                </tr>
+                            {{end}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

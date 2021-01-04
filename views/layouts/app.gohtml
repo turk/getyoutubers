@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>{{if .Meta.Title}}{{.Meta.Title}}{{else}}{{config "String" "sitename" ""}}{{end}}</title>
+    <meta name="description"
+          content="{{if .Meta.Description}}{{.Meta.Description}}{{else}}{{config "String" "sitename" ""}}{{end}}"/>
+    <link rel="canonical" href="{{if .Meta.Url}}{{.Meta.Url}}{{else}}{{config "String" "appUrl" ""}}{{end}}"/>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="{{config "String" "sitename" ""}}"/>
+    <meta property="og:image" content="{{if .Meta.Title}}{{.Meta.Image}}{{end}}"/>
+    <meta property="og:title"
+          content="{{if .Meta.Title}}{{.Meta.Title}}{{else}}{{config "String" "sitename" ""}}{{end}}"/>
+    <meta property="og:url" content="{{if .Meta.Url}}{{.Meta.Url}}{{else}}{{config "String" "appUrl" ""}}{{end}}"/>
+    <meta property="og:description"
+          content="{{if .Meta.Description}}{{.Meta.Description}}{{else}}{{config "String" "sitename" ""}}{{end}}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title"
+          content="{{if .Meta.Title}}{{.Meta.Title}}{{else}}{{config "String" "sitename" ""}}{{end}}"/>
+    <meta name="twitter:description"
+          content="{{if .Meta.Description}}{{.Meta.Description}}{{else}}{{config "String" "sitename" ""}}{{end}}"/>
+    <meta name="twitter:image:src" content="{{if .Meta.Title}}{{.Meta.Image}}{{end}}"/>
+
+
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebSite",
+            "url": "https://getyoutubers.com/"
+        }
+    </script>
+    <link rel="stylesheet" media="all" href="/static/assets/main.css" data-turbolinks-track="true"/>
+    <link rel="stylesheet" media="all" href="/static/assets/css/tabler.css" data-turbolinks-track="true"/>
+    <link rel="stylesheet" media="all" href="/static/assets/css/responsive.css" data-turbolinks-track="true"/>
+    <link rel="stylesheet" media="all" href="/static/assets/css/custom.css" data-turbolinks-track="true"/>
+
+    <script src="/static/assets/script.js" data-turbolinks-track="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/enfavicon.png"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icons-bar">
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+               </span>
+            </button>
+            <a class="navbar-brand" href="/"><img
+                        src="/static/assets/img/logo.png"
+                        alt="getyoutubers.com"/></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        </div>
+    </div>
+</nav>
+<div id="wrap">
+    {{.LayoutContent}}
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-xs-12">
+                <a id="c" href="mailto:900f559b153d4d79a1bbac45b2c49d18.protect@whoisguard.com">Contact</a>
+            </div>
+            <footer class="col-sm-6 col-xs-12">
+                <span>©2020. GetYoutuber.com</span>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<script src="/static/assets/bootstrap.js"
+        data-turbolinks-track="true"></script>
+<script src="/static/js/reload.min.js"></script>
+{{if eq .RunMode "prod"}}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168075805-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-168075805-1');
+</script>
+{{end}}
+</body>
+
+</html>

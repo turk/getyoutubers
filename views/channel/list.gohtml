@@ -1,0 +1,46 @@
+<div class="container full-w">
+    <div id="category">
+        <div id="content">
+            <div class="row">
+                <div class="main col col-sm-12">
+                    <h1 style="text-align: center;">Top Youtube Channels in {{.PageName}}</h1>
+                    <div class="top-charts-box">
+                        <table class="top-charts">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Youtuber</th>
+                                <th>Subscribers</th>
+                                <th>Video Views</th>
+                                <th>Uploads</th>
+                                <th>Category</th>
+                                <th>Started</th>
+                            </tr>
+                            {{range $i, $c := .Channels}}
+                                <tr>
+                                    <td>{{$i | inc}}</td>
+                                    <td>
+                                        <a href="{{urlfor "ChannelController.GetChannel" ":channelID" $c.ChannelID}}">
+                                            <img class="lazy" data-src="{{$c.Avatar}}" alt="Zee TV"
+                                                 src="{{$c.Avatar}}">{{$c.Name}}
+                                        </a>
+                                    </td>
+                                    <td>{{$c.SubscriberCount}}</td>
+                                    <td>{{$c.ViewCount}}</td>
+                                    <td>{{$c.UploadCount}}</td>
+                                    <td>
+                                        <a href="/global/entertainment/top-entertainment-youtube-channels/en">{{$c.Type.Name}}</a>
+                                    </td>
+                                    <td>{{$c.ChannelCreatedAt}}</td>
+                                </tr>
+                            {{end}}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+

@@ -1,0 +1,5 @@
+@media only screen and (max-width: 600px) {
+    #wrap #homepage .trending-channels .channels-inner .channels .channel {
+        width: 30%;
+    }
+}

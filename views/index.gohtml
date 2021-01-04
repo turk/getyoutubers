@@ -1,0 +1,34 @@
+<div id="homepage">
+    <h1>Live Trending Youtubers</h1>
+    <div class="trending-channels">
+        <div class="channels-inner">
+            <div class="channels">
+                {{range $c := .Channels}}
+                    <a class="channel" href="{{urlfor "ChannelController.GetChannel" ":channelID" $c.ChannelID}}">
+                        <img class="lazy" data-src="{{$c.Avatar}}"
+                             src="{{$c.Avatar}}">
+                        <div class="title">{{$c.Name}}</div>
+                        <div class="count">{{$c.SubscriberCount}}</div>
+                    </a>
+                {{end}}
+            </div>
+        </div>
+    </div>
+
+    <div class="container blocks">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <h4>Search for Youtube Channels by Category</h4>
+                {{range $c := .Categories}}
+                    <a href="{{urlfor "ChannelController.List" ":slug" $c.Slug}}"><span>Youtube {{$c.Name}} Channels</span></a>
+                {{end}}
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <h5>Browse Youtube channels by country</h5>
+                {{range $c := .Countries}}
+                    <a href="{{urlfor "ChannelController.List" ":slug" $c.Slug}}">{{$c.Name}} Youtube Channels</a>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</div>
